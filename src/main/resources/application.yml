@@ -1,0 +1,13 @@
+server:
+ port: 8083
+
+spring:
+  application:
+    name: bff-agendador
+api:
+  usuario:
+    url: localhost:8080/usuario
+  tarefa:
+    url: localhost:8081/tarefas
+
+spring-docs:
