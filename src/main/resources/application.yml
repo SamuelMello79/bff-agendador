@@ -16,3 +16,4 @@ usuario:
   senha: admin
 cron:
   horario: 0 0/5 * * * ?
+spring-docs:
