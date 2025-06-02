@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "tarefas", url = "${api.notificacao.url}")
+@FeignClient(name = "notificacao", url = "${api.notificacao.url}")
 public interface NotificacaoClient {
     @PostMapping
     void sendEmail(@RequestBody TarefaDTOResponse tarefaDTO);

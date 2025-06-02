@@ -9,5 +9,10 @@ api:
     url: localhost:8080/usuario
   tarefa:
     url: localhost:8081/tarefas
-
-spring-docs:
+  notificacao:
+    url: localhost:8082/email
+usuario:
+  email: noreply@email.com
+  senha: admin
+cron:
+  horario: 0 0/5 * * * ?
