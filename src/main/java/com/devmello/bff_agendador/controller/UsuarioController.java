@@ -7,6 +7,7 @@ import com.devmello.bff_agendador.bussiness.dtos.in.UsuarioDTORequest;
 import com.devmello.bff_agendador.bussiness.dtos.out.EnderecoDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.TelefoneDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.UsuarioDTOResponse;
+import com.devmello.bff_agendador.bussiness.dtos.out.ViaCepDTOResponse;
 import com.devmello.bff_agendador.infrastructure.config.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -110,4 +111,11 @@ public interface UsuarioController {
     })
     ResponseEntity<Void> deletarPorEmail(@PathVariable String email,
                                          @RequestHeader(name = "Authorization", required = false) String token);
+
+    @Operation(summary = "Busca dados de endereço", description = "Busca dados de um endereço pelo cep", responses = {
+            @ApiResponse(responseCode = "200", description = "Dados de endereço retornado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Cep inválido"),
+            @ApiResponse(responseCode = "500", description = "Erro de servidor"),
+    })
+    ResponseEntity<ViaCepDTOResponse> buscarDadosCep(@PathVariable("cep") String cep);
 }

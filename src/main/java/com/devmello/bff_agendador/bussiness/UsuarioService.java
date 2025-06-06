@@ -7,6 +7,7 @@ import com.devmello.bff_agendador.bussiness.dtos.in.UsuarioDTORequest;
 import com.devmello.bff_agendador.bussiness.dtos.out.EnderecoDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.TelefoneDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.UsuarioDTOResponse;
+import com.devmello.bff_agendador.bussiness.dtos.out.ViaCepDTOResponse;
 import com.devmello.bff_agendador.infrastructure.client.UsuarioClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,9 @@ public class UsuarioService {
 
     public TelefoneDTOResponse cadastrarTelefone(String token, TelefoneDTORequest telefoneDTO) {
         return client.adicionaTelefone(telefoneDTO, token);
+    }
+
+    public ViaCepDTOResponse buscarDadosCep(String cep) {
+        return client.buscarDadosCep(cep);
     }
 }

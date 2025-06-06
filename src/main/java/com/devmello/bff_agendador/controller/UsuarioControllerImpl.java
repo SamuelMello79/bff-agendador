@@ -8,6 +8,7 @@ import com.devmello.bff_agendador.bussiness.dtos.in.UsuarioDTORequest;
 import com.devmello.bff_agendador.bussiness.dtos.out.EnderecoDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.TelefoneDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.UsuarioDTOResponse;
+import com.devmello.bff_agendador.bussiness.dtos.out.ViaCepDTOResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,5 +82,10 @@ public class UsuarioControllerImpl implements UsuarioController {
                                                 @RequestHeader(name = "Authorization", required = false) String token) {
         service.deleteByEmail(email, token);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/endereco/{cep}")
+    public ResponseEntity<ViaCepDTOResponse> buscarDadosCep(@PathVariable String cep) {
+        return ResponseEntity.ok(service.buscarDadosCep(cep));
     }
 }

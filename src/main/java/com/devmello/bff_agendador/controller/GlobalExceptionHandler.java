@@ -1,5 +1,6 @@
 package com.devmello.bff_agendador.controller;
 
+import com.devmello.bff_agendador.infrastructure.exception.BadRequestException;
 import com.devmello.bff_agendador.infrastructure.exception.ConflictException;
 import com.devmello.bff_agendador.infrastructure.exception.NotFoundException;
 import com.devmello.bff_agendador.infrastructure.exception.UnauthorizedException;
@@ -27,5 +28,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<String> handlerUnathorizedException(UnauthorizedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
