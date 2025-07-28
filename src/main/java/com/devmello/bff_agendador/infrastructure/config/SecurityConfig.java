@@ -2,6 +2,7 @@ package com.devmello.bff_agendador.infrastructure.config;
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import lombok.RequiredArgsConstructor;
 
 @SecurityScheme(
         name = SecurityConfig.SECURITY_SCHEME,
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
         bearerFormat = "JWT",
         scheme = "bearer"
 )
+@RequiredArgsConstructor
 public class SecurityConfig {
     public static final String SECURITY_SCHEME = "bearerAuth";
 }

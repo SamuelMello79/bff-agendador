@@ -9,7 +9,6 @@ import com.devmello.bff_agendador.bussiness.dtos.out.TelefoneDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.UsuarioDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.ViaCepDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

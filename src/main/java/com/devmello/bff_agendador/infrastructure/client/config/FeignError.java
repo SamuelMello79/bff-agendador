@@ -11,18 +11,18 @@ import java.util.Objects;
 public class FeignError implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
-
+        String mensagem = "Erro ";
 
         switch (response.status()) {
 
             case 409:
-                return new ConflictException("Erro: " + mensagemErro(response));
+                return new ConflictException(mensagem + mensagemErro(response));
             case 404:
-                return new NotFoundException("Erro: " + mensagemErro(response));
+                return new NotFoundException(mensagem + mensagemErro(response));
             case 401:
-                return new UnauthorizedException("Erro: " + mensagemErro(response));
+                return new UnauthorizedException(mensagem + mensagemErro(response));
             case 400:
-                return new BadRequestException("Erro: " + mensagemErro(response));
+                return new BadRequestException(mensagem + mensagemErro(response));
             default:
                 return new BussinessException("Erro de servidor");
         }
