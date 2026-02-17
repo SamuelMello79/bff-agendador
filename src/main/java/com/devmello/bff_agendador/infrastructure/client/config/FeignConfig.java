@@ -3,7 +3,7 @@ package com.devmello.bff_agendador.infrastructure.client.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class FeignConfig {
     @Bean
     public FeignError feignError() {

@@ -9,7 +9,6 @@ import com.devmello.bff_agendador.bussiness.dtos.out.TelefoneDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.UsuarioDTOResponse;
 import com.devmello.bff_agendador.bussiness.dtos.out.ViaCepDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +16,8 @@ import java.util.List;
 @FeignClient(name = "usuario", url = "${api.usuario.url}")
 public interface UsuarioClient {
 
-    @GetMapping("/usuario")
-    UsuarioDTOResponse findByEmail(@RequestParam("email") String email, @RequestHeader("Authorization") String token);
+    @GetMapping
+    UsuarioDTOResponse buscarPorEmail(@RequestParam("email") String email, @RequestHeader("Authorization") String token);
 
     @PostMapping
     UsuarioDTOResponse salvar(@RequestBody UsuarioDTORequest usuarioDTO);
@@ -27,10 +26,7 @@ public interface UsuarioClient {
     List<UsuarioDTOResponse> listar(@RequestHeader(name = "Authorization") String token);
 
     @GetMapping("/{id}")
-    UsuarioDTOResponse listarPorId(@PathVariable Long id, @RequestHeader(name = "Authorization") String token);
-
-    @GetMapping
-    UsuarioDTOResponse buscarPorEmail(@RequestParam("email") String email, @RequestHeader(name = "Authorization") String token);
+    UsuarioDTOResponse buscarPorId(@PathVariable Long id, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping("/login")
     String login(@RequestBody LoginDTORequest usuarioDTO);

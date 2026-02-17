@@ -1,41 +1,8 @@
 services:
-  agendador-tarefas:
-    build: ../api-agendador
-    container_name: api-agendador
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/db_agendador
-    depends_on:
-      - mongo
-  usuario:
-    build: ../api-usuario
-    container_name: api-usuario
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_usuario
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
-    depends_on:
-      - postgres
-  notificacao:
-    build: ../api-notificacao
-    container_name: api-notificacao
-    ports:
-      - "8084:8084"
-  bff-agendador:
-    build: .
-    container_name: bff-agendador
-    ports:
-      - "8083:8083"
-    environment:
-      - USUARIO_URL=usuario:8080/usuario
-      - AGENDADOR_URL=agendador:8081/tarefas
-      - NOTIFICACAO_URL=notificacao:8082/email
+  # BANCO DE DADOS
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres-agendador
     restart: always
     environment:
       POSTGRES_USER: admin
@@ -43,15 +10,108 @@ services:
       POSTGRES_DB: db_usuario
     ports:
       - "5432:5432"
+    networks:
+      - agendador-network
+
   mongo:
     image: mongo:latest
-    container_name: mongo
+    container_name: mongo-agendador
     restart: always
     environment:
       MONGO_INITDB_DATABASE: db_agendador
     ports:
       - "27017:27017"
+    networks:
+      - agendador-network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-agendador
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: comunicacao1
+    ports:
+      - "3306:3306"
+    networks:
+      - agendador-network
+
+  # APIS DE NEGOCIO
+  api_usuario:
+    build: ../api-usuario
+    container_name: api-usuario
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_usuario
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SERVER_PORT: 8081
+    networks:
+      - agendador-network
+    depends_on:
+      - postgres
+
+  api_agendador:
+    build: ../api-agendador
+    container_name: api-agendador
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/db_agendador
+      SERVER_PORT: 8082
+    networks:
+      - agendador-network
+    depends_on:
+      - mongo
+
+  api_notificacao:
+    build: ../api-notificacao
+    container_name: api-notificacao
+    ports:
+      - "8083:8083"
+    environment:
+      SERVER_PORT: 8083
+    networks:
+      - agendador-network
+
+  api_comunicacao:
+    build: ../comunicacao_api
+    container_name: api-comunicacao
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/comunicacao1?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      NOTIFICACAO_URL: http://api_notificacao:8083/api/notificacoes
+      SERVER_PORT: 8084
+    networks:
+      - agendador-network
+    depends_on:
+      - mysql
+      - api_notificacao
+
+  # BFF (BACKEND FOR FRONTEND)
+  bff_agendador:
+    build: .
+    container_name: bff_agendador
+    ports:
+      - "8085:8085"
+    environment:
+      USUARIO_SERVICE_URL: http://api_usuario:8081/api/usuarios
+      AGENDADOR_SERVICE_URL: http://api_agendador:8082/api/tarefas
+      NOTIFICACAO_SERVICE_URL: http://api_notificacao:8083/api/email
+      COMUNICACAO_SERVICE_URL: http://api_comunicacao:8084/api/comunicacao
+      SERVER_PORT: 8085
+    networks:
+      - agendador-network
+    depends_on:
+      - api_usuario
+      - api_agendador
+      - api_comunicacao
+      - api_notificacao
 
 networks:
-  default:
+  agendador-network:
     driver: bridge

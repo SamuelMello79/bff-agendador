@@ -32,6 +32,12 @@ public class UsuarioControllerImpl implements UsuarioController {
         return ResponseEntity.ok(service.findAll(token));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTOResponse> buscarPorId(@PathVariable("id") Long id,
+                                                             @RequestHeader(name = "Authorization", required = false) String token) {
+        return ResponseEntity.ok(service.findById(id, token));
+    }
+
     @GetMapping
     public ResponseEntity<UsuarioDTOResponse> buscarPorEmail(@RequestParam("email") String email,
                                                              @RequestHeader(name = "Authorization", required = false) String token) {

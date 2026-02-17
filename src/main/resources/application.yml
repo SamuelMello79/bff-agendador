@@ -1,19 +1,20 @@
 server:
- port: 8083
+ port: ${SERVER_PORT}
 
 spring:
   application:
     name: bff-agendador
 api:
   usuario:
-    url: localhost:8080/usuario
+    url: ${USUARIO_SERVICE_URL}
   tarefa:
-    url: localhost:8081/tarefas
+    url: ${AGENDADOR_SERVICE_URL}
   notificacao:
-    url: localhost:8082/email
+    url: ${NOTIFICACAO_SERVICE_URL}
+  comunicacao:
+    url: ${COMUNICACAO_SERVICE_URL}
 usuario:
-  email: noreply@email.com
+  email: noreply.agendador.dev@gmail.com
   senha: admin
 cron:
   horario: 0 0/5 * * * ?
-spring-docs:

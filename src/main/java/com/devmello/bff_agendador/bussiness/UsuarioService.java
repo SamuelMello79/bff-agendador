@@ -33,7 +33,11 @@ public class UsuarioService {
     }
 
     public UsuarioDTOResponse findByEmail(String email, String token) {
-        return client.findByEmail(email, token);
+        return client.buscarPorEmail(email, token);
+    }
+
+    public UsuarioDTOResponse findById(Long id, String token) {
+        return client.buscarPorId(id, token);
     }
 
     public void deleteByEmail(String email, String token) {

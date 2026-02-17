@@ -47,6 +47,15 @@ public interface UsuarioController {
     ResponseEntity<UsuarioDTOResponse> buscarPorEmail(@RequestParam("email") String email,
                                                       @RequestHeader(name = "Authorization", required = false) String token);
 
+    @Operation(summary = "Buscar dados de usuários por ID", description = "Buscar dados do usuário", responses = {
+            @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro de servidor"),
+    })
+    ResponseEntity<UsuarioDTOResponse> buscarPorId(@PathVariable("id") Long id,
+                                                      @RequestHeader(name = "Authorization", required = false) String token);
+
     @Operation(summary = "Login de usuários", description = "Login do usuário", responses = {
             @ApiResponse(responseCode = "200", description = "Usuário logado com sucesso"),
             @ApiResponse(responseCode = "401", description = "Credênciais são inválidas"),
